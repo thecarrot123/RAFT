@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+service Raft {
+    rpc RequestVote(RequestVoteReq) returns (RequestVoteResp){}
+    rpc AppendEntries(AppendEntriesReq) returns (AppendEntriesResp){}
+    rpc GetLeader(GetLeaderReq) returns (GetLeaderResp){}
+    rpc Suspend(SuspendReq) returns (SuspendResp){}
+    rpc SetVal(SetValReq) returns (SetValResp) {}
+    rpc GetVal(GetValReq) returns (GetValResp) {}
+}
+
+message RequestVoteReq {
+    int32 term = 1;
+    int32 candidateId = 2;
+    int32 lastLogIndex = 3;
+    int32 lastLogTerm = 4;
+}
+message RequestVoteResp {
+    int32 term = 1;
+    bool result = 2;
+}
+message AppendEntriesReq {
+    int32 term = 1;
+    int32 leaderId = 2;
+    int32 prevLogIndex = 3;
+    int32 prevLogTerm = 4;
+    repeated Entry entries = 5;
+    int32 leaderCommit = 6;
+}
+message AppendEntriesResp {
+    int32 term = 1;
+    bool success = 2;
+}
+message GetLeaderReq {}
+message GetLeaderResp {
+    int32 leaderId = 1;
+    string address = 2;
+}
+message SuspendReq {
+    int32 period = 1;
+}
+message SuspendResp{}
+message SetValReq {
+    string key = 1;
+    int32 value = 2;
+}
+message SetValResp{
+    bool success = 1;
+}
+message GetValReq {
+    string key = 1;
+}
+message GetValResp {
+    bool success = 1;
+    int32 value = 2;
+}
+message Entry {
+    int32 index = 1;
+    int32 term = 2;
+    string command = 3;
+}

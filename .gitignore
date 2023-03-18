@@ -1,0 +1,8 @@
+venv/
+__pycahce__
+.vscode
+*.pyc
+*.pyo
+env*
+raft_pb2_grpc.py
+raft_pb2.py
